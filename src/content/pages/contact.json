@@ -4,5 +4,19 @@
   "header": {
     "title": "Get Answers to Your <strong>Foxi</strong> Questions.",
     "text": "Whether you have a question, need support, or just want to share your feedback, we're all ears. Reach out to us and we'll get back to you as soon as possible."
+  },
+  "cta": {
+    "title": "Join Over 30,000 Satisfied Users!",
+    "description": "Discover why thousands of professionals trust our platform to streamline their workflow and enhance productivity. Get started today and see the difference for yourself!",
+    "award": {
+      "icon": "/images/badge.svg",
+      "text": "#1 Product of the Year,",
+      "highlight": "Product Hunt",
+      "link": "https://www.producthunt.com"
+    },
+    "button": {
+      "text": "Get started now!",
+      "link": "/pricing"
+    }
   }
 }

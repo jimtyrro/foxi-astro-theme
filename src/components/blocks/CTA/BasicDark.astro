@@ -2,6 +2,9 @@
 // Basic Dark Call To Action section
 // ------------
 // Description: A centered call to action section that contains: a title, text, background image, notification and a button.
+// All props are optional — pages that don't pass any get today's defaults
+// unchanged. Pages with a `cta` entry in the pages content collection pass
+// it through as props (see src/pages/contact.astro).
 
 // Components
 // - Layout
@@ -16,25 +19,52 @@ import Highlight from '../../ui/Highlight.astro'
 
 // Content
 import ctaImage from '../../../assets/cta-dark-bg.webp'
-import badge from '../../../assets/badge.svg'
+import defaultBadge from '../../../assets/badge.svg'
+
+// Props
+type Props = {
+	title?: string
+	description?: string
+	award?: {
+		icon: string
+		text: string
+		highlight: string
+		link: string
+	}
+	button?: {
+		text: string
+		link: string
+	}
+}
+const {
+	title = 'Join Over 30,000 Satisfied Users!',
+	description = 'Discover why thousands of professionals trust our platform to streamline their workflow and enhance productivity. Get started today and see the difference for yourself!',
+	award = {
+		icon: defaultBadge.src,
+		text: '#1 Product of the Year,',
+		highlight: 'Product Hunt',
+		link: 'https://www.producthunt.com'
+	},
+	button = {
+		text: 'Get started now!',
+		link: '/pricing'
+	}
+} = Astro.props
 ---
 
 <Section>
 	<Row>
 		<Col span="1" />
 		<Col span="10">
-			<CTA
-				title="Join Over 30,000 Satisfied Users!"
-				text="Discover why thousands of professionals trust our platform to streamline their workflow and enhance productivity. Get started today and see the difference for yourself!"
-				mode="dark"
-				bg={ctaImage}
-			>
+			<CTA title={title} text={description} mode="dark" bg={ctaImage}>
 				<ChipNotification radius="rounded-full" classes="mb-6 box">
-					<img src={badge.src} alt="Product of the Year" class="h-12 w-12" slot="button" />
-					<span class="hidden md:block">#1 Product of the Year,</span>
-					<Highlight classes="md:ml-2"> Product Hunt </Highlight>
+					<img src={award.icon} alt={award.highlight} class="h-12 w-12" slot="button" />
+					<span class="hidden md:block">{award.text}</span>
+					<a href={award.link} target="_blank" rel="noopener noreferrer">
+						<Highlight classes="md:ml-2">{award.highlight}</Highlight>
+					</a>
 				</ChipNotification>
-				<Button size="lg" style="primary"> Get started now! </Button>
+				<Button size="lg" style="primary" type="link" link={button.link}>{button.text}</Button>
 			</CTA>
 		</Col>
 		<Col span="1" />

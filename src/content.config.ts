@@ -27,6 +27,22 @@ const pages = defineCollection({
 				title: z.string(),
 				text: z.string()
 			})
+			.optional(),
+		cta: z
+			.object({
+				title: z.string(),
+				description: z.string(),
+				award: z.object({
+					icon: z.string(), // path to an image, e.g. /images/badge.svg
+					text: z.string(), // plain label, e.g. "#1 Product of the Year,"
+					highlight: z.string(), // linked/highlighted portion, e.g. "Product Hunt"
+					link: z.string()
+				}),
+				button: z.object({
+					text: z.string(),
+					link: z.string()
+				})
+			})
 			.optional()
 	})
 })

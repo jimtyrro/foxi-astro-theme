@@ -9,10 +9,10 @@ import ContactCards from '../components/blocks/contact/ContactCards.astro'
 import SocialProof from '../components/blocks/socialproof/Basic.astro'
 
 // Content
-// - Page content (SEO + header) from the pages collection
+// - Page content (SEO + header + cta) from the pages collection
 import { getEntry } from 'astro:content'
 const page = (await getEntry('pages', 'contact'))!
-const { title: SEOTitle, description: SEODescription, header } = page.data
+const { title: SEOTitle, description: SEODescription, header, cta } = page.data
 ---
 
 <Layout title={SEOTitle} description={SEODescription}>
@@ -24,5 +24,5 @@ const { title: SEOTitle, description: SEODescription, header } = page.data
 	/>
 	<ContactCards classes="dark:bg-neutral-950/80" />
 	<SocialProof classes="dark:bg-neutral-950/80" />
-	<CTA />
+	<CTA title={cta?.title} description={cta?.description} award={cta?.award} button={cta?.button} />
 </Layout>
