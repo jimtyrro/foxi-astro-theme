@@ -1,0 +1,6 @@
+{
+  "question": "Is there an API for custom integrations?",
+  "reply": "Yes, we provide an API that allows you to create custom integrations with Foxi. Our API documentation provides detailed instructions and examples to help you get started.",
+  "category": "integrations",
+  "open": false
+}
