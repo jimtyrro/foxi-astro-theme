@@ -1,4 +1,11 @@
 {
+  // Astro files: astro-ls is the only correct language server — it sees
+  // frontmatter + template together. Biome only parses the frontmatter as
+  // plain TS and false-alarms on anything used in the template (e.g. every
+  // import). biome.json excludes *.astro at the tool level (authoritative,
+  // works in any editor/CLI); this is the editor-level second layer, in
+  // case a future Zed/Biome extension update ever attaches diagnostics to
+  // the embedded TS region regardless of file-level ignores.
   "languages": {
     "Astro": {
       "language_servers": ["astro-ls", "!biome", "!eslint"]
