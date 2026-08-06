@@ -1,0 +1,6 @@
+{
+  "question": "Does Foxi work with Slack?",
+  "reply": "Yes, you can integrate Foxi with Slack to receive notifications and updates directly in your channels. This allows you to stay informed about your projects without leaving Slack.",
+  "category": "integrations",
+  "open": false
+}
