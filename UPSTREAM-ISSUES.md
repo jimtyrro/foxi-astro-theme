@@ -220,3 +220,51 @@ recourse except renaming.
    in `astroadmin.config.js`) so a specific field can be pinned to a widget
    type regardless of its name — this is the more general fix and would
    also help issue #4 (schema-aware widgets/enums).
+
+---
+
+## Issue E — auto-save persists hollow stubs for untouched optional sections
+
+**Repro:** open an entry whose collection schema has an optional nested
+object (e.g. `pages`' `cta`/`cards`). Merely interacting with that section's
+fields — type a character, then clear it, or otherwise touch-and-abandon —
+triggers the debounced auto-save (`form.addEventListener('input', ...)`)
+and persists a stub like `cards: { items: [] }`: missing the required
+`title`/`description` the object needs whenever it's present at all. Next
+`astro build` fails with `InvalidContentEntryDataError`.
+
+**Root cause:** `cleanEmptyValues()` in `ui/form-generator.js` strips empty
+*leaf strings* recursively, and deletes a now-empty plain **object**
+(`Object.keys(value).length === 0`) — but never an empty **array**, and
+never re-checks whether stripping left the *parent* container holding
+nothing but empty containers (e.g. `{items: []}` still has one key, so the
+shallow zero-key check never fires).
+
+**Fix implemented (see our fork's `fix/prune-empty-optional-sections`
+branch):** a new `pruneEmptyOptionalContainers(data, schema)` that:
+- Recursively determines "deep emptiness" (blank strings, empty arrays,
+  objects made only of such) — read-only, never mutates a field it decides
+  to keep, so a legitimately partial section (e.g. title/description filled
+  in, items array still empty) is preserved exactly as extracted.
+- Uses each schema level's own `required: string[]` array to know whether
+  the *containing* field is optional — note this required array only ever
+  lives on the parent in the JSON Schema `zod-to-json-schema`/zod4-native
+  output; **the field-level `schema.required` boolean checks already in the
+  templates (e.g. `ui/form-generator.js` lines ~254, 327, 358, 384, 768,
+  828 — the ones driving the red-asterisk "required" indicator) are reading
+  a property that standard JSON Schema never sets on an individual property
+  schema, so they're effectively dead code today** — a separate, smaller
+  bug worth fixing in the same pass (flatten each level's `required` array
+  onto its properties once, server- or client-side, and both the red
+  asterisk and any future required-aware logic get fixed for free).
+- Wired into `saveContent()` in `ui/dashboard.js`, right after
+  `extractFormData()`.
+
+### Suggested fix (PR direction)
+1. Adopt the `pruneEmptyOptionalContainers` approach (or equivalent) so
+   auto-save never persists a container the user didn't actually fill in.
+2. Separately, fix the dead `schema.required` boolean check — flatten each
+   object level's `required` array onto its own properties once (server-side
+   in `schema-parser.js`, or client-side right where `generateFields` reads
+   `schema.properties`) so the required-field indicator actually reflects
+   the zod schema.
