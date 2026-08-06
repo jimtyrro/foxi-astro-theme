@@ -122,3 +122,69 @@ const pages = defineCollection({
 > listing/entry API, and editing of glob-loader collections (`blog`,
 > `pages`, `faq` data collections) all work. Site builds and dev-serves fine.
 > Only caveat encountered is unrelated to v7 (frontmatter round-trip, #31–33).
+
+---
+
+## Issue C — schema-parser resolves bare `zod` from the project root; breaks under strict/isolated installers (pnpm, nub)
+
+**Symptom:** on a strict/isolated `node_modules` layout, editing a collection's
+schema in `content.config.ts` (adding a nested field) silently didn't appear
+in the admin. No error surfaced in the UI — the collection just fell back to
+being treated as schema-less.
+
+**Root cause** (found via server log, `console.error` output not otherwise
+surfaced):
+
+```
+🔄 Parsing content schemas from config.ts...
+✘ [ERROR] Could not read from file: node_modules/zod/index.js
+❌ Failed to parse schemas: Failed to bundle config.ts: Build failed with 1 error:
+astro-content-shim:astro:content:2:18: ERROR: Could not read from file: .../node_modules/zod/index.js
+Could not load schemas for pages; treating as glob: Failed to bundle config.ts: ...
+```
+
+`server/utils/schema-parser.js` bundles the project's `content.config.ts`
+with esbuild to extract the zod schema. Our config imports `z` from
+`astro/zod` (the documented, current API) — a real, declared dependency
+(`astro`). But `astro/zod` itself re-exports the `zod` package internally,
+and esbuild's bundler, running with the **project root** as its resolution
+root, needs to resolve the bare specifier `zod` from there. Under npm's flat
+`node_modules`, `zod` (a transitive dependency of `astro`) gets hoisted to
+the top level by accident and resolution succeeds. Under an isolated/strict
+installer (pnpm, **nub**), `astro`'s own dependencies live inside `astro`'s
+private store slot, not hoisted to the project root — so `zod` isn't
+resolvable from where esbuild is looking, and the whole schema parse fails.
+
+**Impact:** any project using a strict package manager gets silently
+degraded schema support — nested fields, enums, etc. don't show up, with no
+error surfaced to the user (only to the server console, which most people
+don't watch).
+
+**Our fix (workaround, not root cause):** declared `zod` as an explicit
+`devDependency` in the project so any installer places it at the top level
+regardless of hoisting behavior:
+
+```bash
+nub add -D zod@^4.3.6   # match astro's zod version
+```
+
+This works, but every project using AstroAdmin under a strict installer
+needs to know to do this — it shouldn't be necessary.
+
+### Suggested fix (PR direction)
+
+1. **Bundle `astro-content-shim` with `zod` marked external** and resolve it
+   *relative to the installed `astro` package* (e.g.
+   `require.resolve('zod', { paths: [require.resolve('astro')] })`) instead
+   of from the project root. This is the same fix pattern their own
+   `astro-content-shim` already uses for `astro:content` — extend it to
+   `zod`.
+2. **Surface the failure to the UI**, not just server logs — a collection
+   silently degrading to schema-less is a hard bug to notice; a banner or
+   `entryLabels`-style warning in the collections API response would have
+   saved real debugging time here.
+3. Add to the `doctor`-style preflight (draft in Issue 3, withdrawn as a bug
+   but still a good feature): verify `content.config.ts` parses under the
+   *installed* package manager's actual resolution — this exact failure mode
+   is precisely what a preflight check should catch before a user goes
+   looking for a missing form field.
