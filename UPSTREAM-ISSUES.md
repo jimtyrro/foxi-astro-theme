@@ -188,3 +188,35 @@ needs to know to do this — it shouldn't be necessary.
    *installed* package manager's actual resolution — this exact failure mode
    is precisely what a preflight check should catch before a user goes
    looking for a missing form field.
+
+---
+
+## Issue D — image-field detection is name-only, false-positives on non-image fields
+
+`ui/form-generator.js#isImageField` treats any field whose name equals or
+ends with one of `['image', 'logo', 'ogImage', 'src', 'icon', 'avatar',
+'photo', 'thumbnail', 'banner', 'background']` as an image field, rendering
+the image-picker widget (Browse Library / Upload New / preview thumbnail)
+regardless of the zod schema's actual type.
+
+**Repro:** a schema field named `icon` holding an icon-set identifier string
+(e.g. `z.string()` with value `"rocket"`, used with `astro-icon`'s `<Icon
+name={icon}>`, not a file path) gets forced into the image picker. The
+preview tries to load `"rocket"` as an image URL — broken-image icon, no way
+to just type the string value directly without renaming the field.
+
+**Workaround applied:** renamed the field to `iconName` in our schema, since
+it no longer matches the name-list (`endsWith('icon')` is false for
+`iconname`). Works, but anyone who prefers the name `icon` for this
+extremely common non-image use (icon-set identifiers) hits this with no
+recourse except renaming.
+
+### Suggested fix (PR direction)
+1. Prefer the zod schema's actual shape when available: an `enum` of known
+   icon names, or a schema `.describe('icon-name')` marker, should route to
+   a plain text/select input, not the image picker — falling back to the
+   name heuristic only when no better signal exists.
+2. Failing that, expose a config-level override (`collections.<name>.fields`
+   in `astroadmin.config.js`) so a specific field can be pinned to a widget
+   type regardless of its name — this is the more general fix and would
+   also help issue #4 (schema-aware widgets/enums).
