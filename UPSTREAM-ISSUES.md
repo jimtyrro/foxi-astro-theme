@@ -1,4 +1,34 @@
-# AstroAdmin — upstream issue/PR drafts
+# AstroAdmin — upstream issues: status and patches
+
+**Update 2026-08-06 — verification + local implementation.**
+
+Patched clone lives at `~/astro/projects/astroadmin-patched` (base: astroadmin
+1.3.1). Run it against this site with:
+
+```bash
+bun ~/astro/projects/astroadmin-patched/bin/cli.js dev   # from THIS directory
+```
+
+| # | Item | Status |
+|---|------|--------|
+| 1 | Frontmatter round-trip corruption | **Not patched** — upstream tracks it as #31/#32/#33/#34 and is actively committing on it; a unilateral fix would collide. Comment drafts below. |
+| 2 | Bun `.env` `$` expansion | **Implemented** — branch `fix/env-dollar-expansion`: `hash-password` prints a paste-ready escaped `.env` line; startup warns when the hash lacks the `$argon2` prefix. Both halves verified live. |
+| 3 | Silent config errors | **Withdrawn** — tested, broken config fails loudly. My earlier claim was wrong. |
+| 4 | Schema-aware widgets | **Already exists upstream** — enum selects, boolean checkboxes, date inputs all present in ui/form-generator.js. Claim was stale. |
+| 5 | Entry ordering | Filed as suggestion (below) — needs maintainer design agreement before a PR. |
+| 6 | Entry labels | **Implemented** — branch `feat/entry-labels`: `entryLabels` map in `GET /api/collections` (labelField config, then title/name/question/label), dropdown prefers labels. Verified live: FAQ entries show question text. |
+| 7 | Docs on legacy collections API | **Implemented** — branch `docs/content-layer-api`: inline-editing.md rewritten to glob loaders, pointer note in content-collections.md. |
+| 8 | Template-page scaffold | Suggestion only — too design-heavy for a drive-by PR. |
+| 9 | Pre-publish schema gate | Suggestion only — overlaps upstream's active work on #31–34. |
+
+Combined branch `patched` = main + #2 + #6 (what we run locally).
+Upstream test suite is red on a clean tree (their own issues #2/#38) —
+identical failures with and without our patches, i.e. no regressions.
+
+---
+
+# Original drafts (kept for reference)
+
 
 Drafts for https://github.com/cloudshipco/astroadmin/issues.
 **Status column updated 2026-08-06 after verifying each claim against the
