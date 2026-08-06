@@ -38,7 +38,7 @@ const faq = defineCollection({
 	schema: z.object({
 		question: z.string(),
 		reply: z.string(),
-		category: z.enum(['pricing', 'integrations', 'features']),
+		category: z.enum(['pricing', 'integrations', 'features', 'pricing-page']),
 		open: z.boolean().default(false)
 	})
 })

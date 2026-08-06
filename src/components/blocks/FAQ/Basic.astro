@@ -14,9 +14,10 @@ import Card from '../../ui/cards/partials/Card.astro'
 
 // Props
 type Props = {
+	data: { question: string; reply: string; open?: boolean }[]
 	classes?: string
 }
-const { classes } = Astro.props
+const { data, classes } = Astro.props
 ---
 
 <Section id="FAQ" classes={classes}>
@@ -33,26 +34,7 @@ const { classes } = Astro.props
 		<Col span="2" />
 		<Col span="8">
 			<Card classes="divide-y divide-neutral-100 dark:divide-neutral-800">
-				<Accordion
-					title="What is included in the free trial?"
-					text="Our free trial gives you full access to all features of our platform for 14 days. You can explore and use all functionalities to see how they fit your business needs, without any cost."
-				/>
-				<Accordion
-					title="Can I change my plan later?"
-					text="Yes, you can upgrade or downgrade your plan at any time from your account settings. The changes will take effect immediately, and any cost adjustments will be prorated."
-				/>
-				<Accordion
-					title="Are there any hidden fees?"
-					text="No, there are no hidden fees. The price you see is the price you pay. We believe in transparent pricing with no surprises."
-				/>
-				<Accordion
-					title="What payment methods do you accept?"
-					text="We accept all major credit cards, including Visa, MasterCard, American Express, and PayPal. For enterprise plans, we also offer invoicing options."
-				/>
-				<Accordion
-					title="Do you offer discounts for annual subscriptions?"
-					text="Yes, we offer a discount for annual subscriptions. By choosing an annual plan, you can save up to 20% compared to the monthly plan."
-				/>
+				{data.map((faq) => <Accordion title={faq.question} text={faq.reply} open={faq.open} />)}
 			</Card>
 		</Col>
 		<Col span="2" />

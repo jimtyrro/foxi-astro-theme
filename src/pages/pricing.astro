@@ -12,6 +12,12 @@ import Feature from '../components/blocks/features/FeatureList.astro'
 import CTA from '../components/blocks/CTA/BasicDark.astro'
 
 // Content
+// - FAQ entries (pricing-page category) from the content collection
+import { getCollection } from 'astro:content'
+const faqPricingPage = (await getCollection('faq'))
+	.filter((e) => e.data.category === 'pricing-page')
+	.sort((a, b) => a.id.localeCompare(b.id))
+	.map((e) => e.data)
 // - SEO
 const SEO = {
 	title: 'Foxi | Pricing made simple',
@@ -45,6 +51,6 @@ const testimonialData = {
 		figcaption={testimonialData.figcaption}
 		cite={testimonialData.cite}
 	/>
-	<FAQ classes="bg-slate-50 dark:bg-neutral-900/40" />
+	<FAQ data={faqPricingPage} classes="bg-slate-50 dark:bg-neutral-900/40" />
 	<CTA />
 </Layout>
