@@ -43,6 +43,19 @@ const pages = defineCollection({
 					link: z.string()
 				})
 			})
+			.optional(),
+		cards: z
+			.object({
+				title: z.string(),
+				description: z.string(),
+				items: z.array(
+					z.object({
+						iconName: z.string(), // astro-icon name, e.g. "rocket"
+						title: z.string(),
+						description: z.string()
+					})
+				)
+			})
 			.optional()
 	})
 })

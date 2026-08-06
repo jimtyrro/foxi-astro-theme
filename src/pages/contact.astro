@@ -12,7 +12,7 @@ import SocialProof from '../components/blocks/socialproof/Basic.astro'
 // - Page content (SEO + header + cta) from the pages collection
 import { getEntry } from 'astro:content'
 const page = (await getEntry('pages', 'contact'))!
-const { title: SEOTitle, description: SEODescription, header, cta } = page.data
+const { title: SEOTitle, description: SEODescription, header, cta, cards } = page.data
 ---
 
 <Layout title={SEOTitle} description={SEODescription}>
@@ -22,7 +22,12 @@ const { title: SEOTitle, description: SEODescription, header, cta } = page.data
 		id="contact"
 		classes="bg-neutral-50 dark:bg-neutral-950/80"
 	/>
-	<ContactCards classes="dark:bg-neutral-950/80" />
+	<ContactCards
+		title={cards?.title}
+		description={cards?.description}
+		items={cards?.items}
+		classes="dark:bg-neutral-950/80"
+	/>
 	<SocialProof classes="dark:bg-neutral-950/80" />
 	<CTA title={cta?.title} description={cta?.description} award={cta?.award} button={cta?.button} />
 </Layout>
