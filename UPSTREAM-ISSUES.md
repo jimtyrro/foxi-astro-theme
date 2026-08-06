@@ -19,9 +19,10 @@ bun ~/astro/projects/astroadmin-patched/bin/cli.js dev   # from THIS directory
 | 6 | Entry labels | **Implemented** — branch `feat/entry-labels`: `entryLabels` map in `GET /api/collections` (labelField config, then title/name/question/label), dropdown prefers labels. Verified live: FAQ entries show question text. |
 | 7 | Docs on legacy collections API | **Implemented** — branch `docs/content-layer-api`: inline-editing.md rewritten to glob loaders, pointer note in content-collections.md. |
 | 8 | Template-page scaffold | Suggestion only — too design-heavy for a drive-by PR. |
+| 10 | Image previews broken for `public/` assets | **Implemented** — branch `fix/serve-public-assets`: admin only served `public/images` under `/images`; root-relative paths like `/blog/cover.png` broke. Now mirrors Astro by serving all of `public/` (after admin UI assets, index off). Verified in browser: cover image renders in the picker. |
 | 9 | Pre-publish schema gate | Suggestion only — overlaps upstream's active work on #31–34. |
 
-Combined branch `patched` = main + #2 + #6 (what we run locally).
+Combined branch `patched` = main + #2 + #6 + #10 (what we run locally).
 Upstream test suite is red on a clean tree (their own issues #2/#38) —
 identical failures with and without our patches, i.e. no regressions.
 
