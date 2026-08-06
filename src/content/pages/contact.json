@@ -12,7 +12,8 @@
       "icon": "/images/badge.svg",
       "text": "#1 Product of the Year,",
       "highlight": "Product Hunt",
-      "link": "https://www.producthunt.com"
+      "link": "https://www.producthunt.com",
+      "iconAlt": "Product Hunt #1 Product of the Year badge"
     },
     "button": {
       "text": "Get started now!",

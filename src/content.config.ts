@@ -34,6 +34,7 @@ const pages = defineCollection({
 				description: z.string(),
 				award: z.object({
 					icon: z.string(), // path to an image, e.g. /images/badge.svg
+					iconAlt: z.string().optional(), // alt text for the icon image (AstroAdmin's image picker offers this)
 					text: z.string(), // plain label, e.g. "#1 Product of the Year,"
 					highlight: z.string(), // linked/highlighted portion, e.g. "Product Hunt"
 					link: z.string()

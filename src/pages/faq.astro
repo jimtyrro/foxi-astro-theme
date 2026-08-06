@@ -21,7 +21,7 @@ const faqIntegrations = faqEntries
 import faqImage1 from '../assets/faq/faq-01.png'
 // - Page content (SEO + header) from the pages collection
 const page = (await getEntry('pages', 'faq'))!
-const { title: SEOTitle, description: SEODescription, header } = page.data
+const { title: SEOTitle, description: SEODescription, header, cta } = page.data
 ---
 
 <Layout title={SEOTitle} description={SEODescription}>
@@ -45,5 +45,5 @@ const { title: SEOTitle, description: SEODescription, header } = page.data
 		text="Discover how Foxi seamlessly integrates with your favorite tools and platforms. From Google Calendar to Slack, find out how to connect and enhance your productivity with powerful integrations."
 		data={faqIntegrations}
 	/>
-	<CTA />
+	<CTA title={cta?.title} description={cta?.description} award={cta?.award} button={cta?.button} />
 </Layout>

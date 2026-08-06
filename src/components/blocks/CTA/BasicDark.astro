@@ -27,6 +27,7 @@ type Props = {
 	description?: string
 	award?: {
 		icon: string
+		iconAlt?: string
 		text: string
 		highlight: string
 		link: string
@@ -58,7 +59,12 @@ const {
 		<Col span="10">
 			<CTA title={title} text={description} mode="dark" bg={ctaImage}>
 				<ChipNotification radius="rounded-full" classes="mb-6 box">
-					<img src={award.icon} alt={award.highlight} class="h-12 w-12" slot="button" />
+					<img
+						src={award.icon}
+						alt={award.iconAlt || award.highlight}
+						class="h-12 w-12"
+						slot="button"
+					/>
 					<span class="hidden md:block">{award.text}</span>
 					<a href={award.link} target="_blank" rel="noopener noreferrer">
 						<Highlight classes="md:ml-2">{award.highlight}</Highlight>
