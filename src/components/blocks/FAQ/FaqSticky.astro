@@ -2,6 +2,10 @@
 // FAQ with sticky sidebar
 // ------------
 // Description: an FAQ section with the title as a sticky sidebar.
+// Renders ONE sticky box — the page composes two of these (see faq.astro)
+// to get a "top" section and a "bottom" section, each with its own
+// title/text passed in as props. This component has no opinion about
+// which one it is; it just renders whatever title/text it's given.
 
 // Components
 // - UI
@@ -11,7 +15,7 @@ import Card from '../../ui/cards/partials/Card.astro'
 
 // Props
 type Props = {
-	title: string
+	title?: string
 	text?: string
 	data: any
 	type?: 'left' | 'right'

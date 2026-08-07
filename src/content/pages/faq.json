@@ -5,12 +5,15 @@
     "title": "Get Answers to Your <strong>Foxi</strong> Questions.",
     "text": "Find answers to common questions about Foxi "
   },
+  "faqStickyTop": {
+    "title": "Understanding Our Pricing Plans",
+    "text": "Get all the details on Foxi's pricing plans. Learn about the costs, discounts, and subscription options to find the best plan that fits your needs and budget."
+  },
   "cta": {
     "title": "Join Over 30,000 Satisfied Users!",
     "description": "Discover why thousands of professionals trust our platform to streamline their workflow and enhance productivity. Get started today and see the difference for yourself!",
     "award": {
       "icon": "/images/badge.svg",
-      "iconAlt": "award icon",
       "text": "#1 Product of the Year,",
       "highlight": "Product Hunt",
       "link": "https://www.producthunt.com"
@@ -19,5 +22,9 @@
       "text": "Get started now!",
       "link": "/pricing"
     }
+  },
+  "faqStickyBottom": {
+    "title": "Integrations Made Easy",
+    "text": "Discover how Foxi seamlessly integrates with your favorite tools and platforms. From Google Calendar to Slack, find out how to connect and enhance your productivity with powerful integrations."
   }
 }

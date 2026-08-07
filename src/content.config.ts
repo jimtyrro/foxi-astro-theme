@@ -57,8 +57,20 @@ const pages = defineCollection({
 					})
 				)
 			})
-			.optional()
-	})
+			.optional(),
+		faqStickyTop: z
+			.object({
+				title: z.string(),
+				text: z.string()
+			})
+			.optional(),
+		faqStickyBottom: z
+			.object({
+				title: z.string(),
+				text: z.string()
+			})
+			.optional(),
+  })
 })
 
 // FAQ items, one JSON per question: src/content/faq/NN-slug.json
