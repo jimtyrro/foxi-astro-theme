@@ -5,7 +5,9 @@
 // Properties:
 // - id: The id of the section
 // - title: The title of the section
-// - image: The image of the section
+// - image: The image of the section — a plain URL string (e.g. /images/foo.png),
+//   not an astro:assets import. Keeping it a string is what makes it editable
+//   through AstroAdmin's image picker.
 // - imageW: The width of the image
 // - imageH: The height of the image
 // - mobileImage: if provided, this image will be used instead on mobile devices
@@ -24,10 +26,10 @@ import Col from '../../ui/Col.astro'
 type Props = {
 	id?: string
 	title?: string
-	image?: any
+	image?: string
 	imageWidth?: number
 	imageHeight?: number
-	mobileImage?: any
+	mobileImage?: string
 	imagePosition?: 'left' | 'right'
 	text?: string
 	classes?: string
@@ -35,14 +37,14 @@ type Props = {
 }
 const {
 	id,
-	title ,
-	image ,
+	title,
+	image,
 	imageWidth,
 	imageHeight,
 	mobileImage,
 	imagePosition = 'right',
-	text ,
-	classes ,
+	text,
+	classes,
 	offsetImage = false
 } = Astro.props
 ---
@@ -51,10 +53,10 @@ const {
 	<Row>
 		<Col span="6" classes="relative">
 			<picture
-				class=`text-image__picture ${offsetImage  ? 'text-image__picture--offset' : ''} ${imagePosition === 'right' ? 'text-image__picture--offset-right' : ''}`
+				class=`text-image__picture ${offsetImage ? 'text-image__picture--offset' : ''} ${imagePosition === 'right' ? 'text-image__picture--offset-right' : ''}`
 			>
-				{mobileImage && <source srcset={mobileImage.src} media="(max-width: 1024px)" />}
-				<img src={image.src} alt={title} width={imageWidth} height={imageHeight} />
+				{mobileImage && <source srcset={mobileImage} media="(max-width: 1024px)" />}
+				{image && <img src={image} alt={title} width={imageWidth} height={imageHeight} />}
 			</picture>
 		</Col>
 		<Col span="6" classes={`self-center ${imagePosition === 'right' ? 'lg:-order-1' : ''}`}>

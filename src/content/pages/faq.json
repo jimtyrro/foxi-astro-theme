@@ -26,5 +26,10 @@
   "faqStickyBottom": {
     "title": "Integrations Made Easy",
     "text": "Discover how Foxi seamlessly integrates with your favorite tools and platforms. From Google Calendar to Slack, find out how to connect and enhance your productivity with powerful integrations."
+  },
+  "textImageBlock": {
+    "title": "Why Foxi’s Pricing Plans Offer Great Value",
+    "text": "At Foxi, we believe in providing exceptional value at every price point. Our pricing plans are designed to cater to a variety of needs, from individuals and small teams to large enterprises. Each plan includes access to our powerful features, seamless integrations, and top-notch customer support.",
+    "image": "/images/faq-01.png"
   }
 }

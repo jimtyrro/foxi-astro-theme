@@ -70,7 +70,14 @@ const pages = defineCollection({
 				text: z.string()
 			})
 			.optional(),
-  })
+		textImageBlock: z
+			.object({
+				title: z.string(),
+				text: z.string(),
+				image: z.string()
+			})
+			.optional(),
+	})
 })
 
 // FAQ items, one JSON per question: src/content/faq/NN-slug.json

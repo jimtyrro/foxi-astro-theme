@@ -18,7 +18,6 @@ const faqIntegrations = faqEntries
 	.map((e) => e.data)
 
 // Content
-import faqImage1 from '../assets/faq/faq-01.png'
 // - Page content (SEO + header) from the pages collection
 const page = (await getEntry('pages', 'faq'))!
 const {
@@ -27,7 +26,8 @@ const {
 	header,
 	cta,
 	faqStickyTop,
-	faqStickyBottom
+	faqStickyBottom,
+	textImageBlock
 } = page.data
 ---
 
@@ -35,10 +35,10 @@ const {
 	<Hero title={header?.title} text={header?.text} />
 	<FAQ title={faqStickyTop?.title} text={faqStickyTop?.text} data={faqPricing} />
 	<TextImage
-		title="Why Foxi’s Pricing Plans Offer Great Value"
-		text="At Foxi, we believe in providing exceptional value at every price point. Our pricing plans are designed to cater to a variety of needs, from individuals and small teams to large enterprises. Each plan includes access to our powerful features, seamless integrations, and top-notch customer support. "
-		image={faqImage1}
-		mobileImage={faqImage1}
+		title={textImageBlock?.title}
+		text={textImageBlock?.text}
+		image={textImageBlock?.image}
+		mobileImage={textImageBlock?.image}
 		imagePosition="left"
 		offsetImage
 		classes="bg-neutral-50 dark:bg-neutral-900 lg:!py-64"
