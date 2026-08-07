@@ -5,10 +5,6 @@
     "title": "Get Answers to Your <strong>Foxi</strong> Questions.",
     "text": "Find answers to common questions about Foxi "
   },
-  "faqStickyTop": {
-    "title": "Understanding Our Pricing Plans",
-    "text": "Get all the details on Foxi's pricing plans. Learn about the costs, discounts, and subscription options to find the best plan that fits your needs and budget."
-  },
   "cta": {
     "title": "Join Over 30,000 Satisfied Users!",
     "description": "Discover why thousands of professionals trust our platform to streamline their workflow and enhance productivity. Get started today and see the difference for yourself!",
@@ -23,12 +19,16 @@
       "link": "/pricing"
     }
   },
+  "faqStickyTop": {
+    "title": "Understanding Our Pricing Plans",
+    "text": "Get all the details on Foxi's pricing plans. Learn about the costs, discounts, and subscription options to find the best plan that fits your needs and budget."
+  },
   "faqStickyBottom": {
     "title": "Integrations Made Easy",
     "text": "Discover how Foxi seamlessly integrates with your favorite tools and platforms. From Google Calendar to Slack, find out how to connect and enhance your productivity with powerful integrations."
   },
   "textImageBlock": {
-    "title": "Why Foxi’s Pricing Plans Offer Great Value",
+    "title": "Why Foxi’s Pricing Plans Offer <strong>Great Value</strong>",
     "text": "At Foxi, we believe in providing exceptional value at every price point. Our pricing plans are designed to cater to a variety of needs, from individuals and small teams to large enterprises. Each plan includes access to our powerful features, seamless integrations, and top-notch customer support.",
     "image": "/images/faq-01.png"
   }
