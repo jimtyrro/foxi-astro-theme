@@ -92,8 +92,26 @@ const faq = defineCollection({
 	})
 })
 
+// Site-wide content that isn't tied to any one page — one JSON file,
+// one entry. src/content/global/footer.json
+const global = defineCollection({
+   loader: glob({ pattern: '**/*.json', base: './src/content/global' }),
+   schema: z.object({
+      footerAbout: z.object({
+         title: z.string(),
+         aboutText: z.string(),
+         logo: z.object({
+            src: z.string(), // path to an image, e.g. /logo.svg
+            alt: z.string(),
+            text: z.string()
+         })
+      })
+   })
+})
+
 export const collections = {
 	blog,
 	pages,
-	faq
+	faq,
+	global
 }

@@ -11,8 +11,10 @@ import { Icon } from 'astro-icon/components'
 // Data
 import { socialLinks } from '../../config/socialLinks'
 import { footerNavigationData } from '../../config/footerNavigation'
+import { getEntry } from 'astro:content'
 
-const { footerAbout, footerColumns, subFooter } = footerNavigationData
+const { footerColumns, subFooter } = footerNavigationData
+const footerAbout = (await getEntry('global', 'footer'))!.data.footerAbout
 ---
 
 <footer class="footer">
